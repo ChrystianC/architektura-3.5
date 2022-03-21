@@ -57,13 +57,15 @@ function buttonCounter(e) {
 	if (e.target.nodeName == "BUTTON") {
 		switch (e.target.className) {
 			case "MOV-button": {
-				const input = document.querySelectorAll("#rejestry input");
-				if (!isHex(input[0].value) && !isHex(input[1].value)) {
-					input.value = null;
-					e.target.classList.add("hex-invalid-value");
-					setInterval(function () {
-						e.target.classList.remove("hex-invalid-value");
-					}, 1000);
+				for (const input of document.querySelectorAll("#rejestry input")) {
+					if (!isHex(input.value)) {
+						input.value = null;
+						e.target.classList.add("hex-invalid-value");
+						setInterval(function () {
+							e.target.classList.remove("hex-invalid-value");
+						}, 1000);
+					}
+					input.classList.remove("hex-invalid-value");
 				}
 				MOV();
 				break;
@@ -77,6 +79,7 @@ function buttonCounter(e) {
 							e.target.classList.remove("hex-invalid-value");
 						}, 1000);
 					}
+					input.classList.remove("hex-invalid-value");
 				}
 				XCHG();
 				calssChXG++;
@@ -92,15 +95,16 @@ function MOV() {
 	const select2 = document.querySelector(".select-2").value.trim();
 	console.log(input.value);
 	console.log(select1, select2);
+
 	if (select1 == select2) {
 		if (input[0].value == "" && input[1].value == "") {
-			p.textContent = "Empty input";
+			p.textContent = "Empty input or not Hex";
 		} else if (input[0].value != "") {
 			p.textContent = `Rejestr ${select1}: ${input[0].value} `;
 		} else p.textContent = `Rejestr ${select1}: ${input[1].value} `;
 	} else {
 		if (input[0].value == "" && input[1].value == "") {
-			p.textContent = "Empty input";
+			p.textContent = "Empty input or not Hex";
 		} else if (input[0].value != "") p.textContent = `Rejestr ${select1}: ${input[0].value} , Rejestr ${select2}: ${input[0].value}`;
 		else p.textContent = `Rejestr ${select2}: ${input[1].value} , Rejestr ${select1}: ${input[1].value}`;
 	}
@@ -112,9 +116,9 @@ function XCHG() {
 	const select2 = document.querySelector(".select-2").value.trim();
 	if (calssChXG % 2 == 0) {
 		if (input[0].value == "" || input[1].value == "" || (input[0].value == "" && input[1].value == "")) {
-			p.textContent = "Empty input";
+			p.textContent = "Empty input or not Hex";
 		} else p.textContent = `Rejestr ${select1}: ${input[0].value} , Rejestr ${select2}: ${input[1].value}  `;
 	} else if (input[0].value == "" || input[1].value == "" || (input[0].value == "" && input[1].value == "")) {
-		p.textContent = "Empty input";
+		p.textContent = "Empty input or not Hex";
 	} else p.textContent = `Rejestr ${select1}: ${input[1].value} , Rejestr ${select2}: ${input[0].value}  `;
 }
